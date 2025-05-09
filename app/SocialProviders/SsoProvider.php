@@ -61,7 +61,7 @@ class SsoProvider extends AbstractProvider implements ProviderInterface
         $endpoint = config('services.sso.endpoints.user') ?? config('services.sso.url') . '/api/oauth/user';
 
         try {
-            $response = $this->getHttpClient()->get($endpoint, [
+            $response = $this->getHttpClient()->post($endpoint, [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token,
