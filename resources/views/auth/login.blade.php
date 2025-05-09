@@ -79,13 +79,16 @@
                         </a>
                     @endif
                 </form>
-
-                <div class="w-4 mx-auto mt-4 border-t border-gray-300 dark:border-white/10"></div>
-
-                <p class="mt-3 text-sm font-medium text-center">
-                    <a class="text-brand-600 transition hover:text-brand-500 focus:outline-none focus:underline"
-                       href="{{ route('password.request') }}">{{ trans('auth.forgot_password') }}</a>
-                </p>
+                
+                @if( ! app(\App\Settings\GeneralSettings::class)->disable_user_registration )
+                    <div class="w-4 mx-auto mt-4 border-t border-gray-300 dark:border-white/10"></div>
+    
+                    <p class="mt-3 text-sm font-medium text-center">
+                        <a class="text-brand-600 transition hover:text-brand-500 focus:outline-none focus:underline"
+                           href="{{ route('password.request') }}">{{ trans('auth.forgot_password') }}</a>
+                    </p>
+                @endif
+                
             </div>
         </div>
     </div>
