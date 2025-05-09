@@ -13,6 +13,8 @@ use Laravel\Socialite\Two\ProviderInterface;
 
 class SsoProvider extends AbstractProvider implements ProviderInterface
 {
+    protected $scopeSeparator = ' ';
+    
     public function getScopes()
     {
         if (config('services.sso.scopes') !== null) {
@@ -111,5 +113,28 @@ class SsoProvider extends AbstractProvider implements ProviderInterface
     public static function isForced(): bool
     {
         return self::isEnabled() && config('services.sso.forced') === true;
+    }
+
+    protected function getCodeFields($state = null): array
+    {
+        $fields = [
+            'client_id' => $this->clientId,
+            'redirect_uri' => $this->redirectUrl,
+            'scope' => $this->formatScopes($this->getScopes(), $this->scopeSeparator),
+            'response_type' => 'code',
+        ];
+
+        if ($this->usesState()) {
+            $fields['state'] = $state;
+        }
+
+        $fields['nonce'] = $this->getCurrentNonce();
+
+        if ($this->usesPKCE()) {
+            $fields['code_challenge'] = $this->getCodeChallenge();
+            $fields['code_challenge_method'] = $this->getCodeChallengeMethod();
+        }
+
+        return array_merge($fields, $this->parameters);
     }
 }
