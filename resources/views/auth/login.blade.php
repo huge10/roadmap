@@ -28,7 +28,7 @@
                       method="post"
                       action="{{ route('login') }}">
                     @csrf
-                    @if( app(\App\Settings\GeneralSettings::class)->disable_user_registration )
+                    @if( ! app(\App\Settings\GeneralSettings::class)->disable_user_registration )
                         <div class="space-y-2">
                             <label class="inline-block text-sm font-medium text-gray-700"
                                    for="email">{{ trans('auth.email') }}</label>
