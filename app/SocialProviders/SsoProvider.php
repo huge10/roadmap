@@ -137,4 +137,20 @@ class SsoProvider extends AbstractProvider implements ProviderInterface
 
         return array_merge($fields, $this->parameters);
     }
+
+    /**
+     * Get the current string used for nonce.
+     *
+     * @return string
+     */
+    protected function getCurrentNonce()
+    {
+        $nonce = null;
+
+        if ($this->request->session()->has('nonce')) {
+            $nonce = $this->request->session()->get('nonce');
+        }
+
+        return $nonce;
+    }
 }
